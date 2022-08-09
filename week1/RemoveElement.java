@@ -1,21 +1,22 @@
 public class RemoveElement {
     public static int removeElement(int[] nums, int val) {
         int newLength = nums.length;
-        int i = 0, j;
+        int newIndex = 0, currentIndex;
         if (newLength == 0 || newLength == 1 && nums[0] == val) {
             return 0;
         }
-        for (j = 0; j < nums.length; j++) {
-            if (nums[j] != val) {
-                nums[i] = nums[j];
-                i++;
+        // Traverse the array
+        for (currentIndex = 0; currentIndex < nums.length; currentIndex++) {
+            if (nums[currentIndex] != val) {
+                nums[newIndex] = nums[currentIndex];
+                newIndex++;
             } else {
                 newLength--;
             }
         }
         System.out.print("New array: ");
-        for (i = 0; i < newLength; i++) {
-            System.out.print(nums[i] + " ");
+        for (newIndex = 0; newIndex < newLength; newIndex++) {
+            System.out.print(nums[newIndex] + " ");
         }
 
         return newLength;
