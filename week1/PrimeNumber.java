@@ -3,14 +3,14 @@ import java.util.Scanner;
 /** This program takes user input as integer n, then finds n. prime number.  */
 public class PrimeNumber {
     public static void main(String[] args) {
-        Scanner userInput = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter n: ");
-        int n = userInput.nextInt();
+        System.out.print("Enter userInput: ");
+        int userInput = scanner.nextInt();
 
         int primeCounter = 0;
         int currentNumber = 1;  // Current number being primality checked
-        while (primeCounter != n) {
+        while (primeCounter != userInput) {
             boolean checkPrime = true;
             currentNumber++;
             for (int i = 2; i < currentNumber; i++) {
@@ -24,6 +24,6 @@ public class PrimeNumber {
             }
         }
 
-        System.out.println(n + ". prime: " + currentNumber);
+        System.out.println(userInput + ". prime: " + currentNumber);
     }
 }
