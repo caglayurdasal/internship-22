@@ -1,14 +1,14 @@
 public class ShuffleTheArray {
     public static int[] shuffle(int[] nums, int n) {
-        int lengthArr = nums.length;
-        int[] newArr = new int[lengthArr];
+        int lengthArray = nums.length;
+        int[] newArray = new int[lengthArray];
         int index = 0;
-        for (int i = 0, j = n; i < lengthArr - n && j < lengthArr; i++, j++) {
-            newArr[index] = nums[i];
-            newArr[index + 1] = nums[j];
+        for (int i = 0, j = n; i < lengthArray - n && j < lengthArray; i++, j++) {
+            newArray[index] = nums[i];
+            newArray[index + 1] = nums[j];
             index += 2;
         }
-        return newArr;
+        return newArray;
     }
 
     public static void main(String[] args) {
