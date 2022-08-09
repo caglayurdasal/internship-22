@@ -11,11 +11,11 @@ public class SingleNumber {
                 freq.add(num);
             }
         }
-        int singleNum = -1;
-        for (int num : freq) {
-            singleNum = num;
+        Object[] freqArray=freq.toArray();
+        if (freqArray.length==1) {
+            return (int) freqArray[0];
         }
-        return singleNum;
+        return -1;
     }
 
     public static void main(String[] args) {
