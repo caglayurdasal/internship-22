@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-/** This program takes user input as integer n, then finds n. prime number.  */
 public class PrimeNumber {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
