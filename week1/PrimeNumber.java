@@ -8,7 +8,7 @@ public class PrimeNumber {
         int userInput = scanner.nextInt();
 
         int primeCounter = 0;
-        int currentNumber = 1;  // Current number being primality checked
+        int currentNumber = 1;  // Current number getting primality checked
         while (primeCounter != userInput) {
             boolean checkPrime = true;
             currentNumber++;
