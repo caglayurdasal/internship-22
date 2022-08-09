@@ -4,23 +4,30 @@
  */
 public class LongestCommonPrefix {
     public static String longestCommonPrefix(String[] strs) {
-        int lenStrs = strs.length;
         String longestPrefix = "";
-
-        // Iterate through first string to compare character by character
-        for (int i = 0; i < strs[0].length(); i++) {
-            boolean check = false; // Checks if current character is common in all strings
-
-            // Iterate through strings in the array to find common prefix
-            for (String str : strs) {
-                // If current character is common in all strings, add it to longestPrefix
-                check = i < str.length() - 1 && str.charAt(i) == strs[0].charAt(i);
+        boolean check = false;  //
+        // Find the shortest string
+        String shortest = strs[0];
+        for (int i = 0; i < strs.length; i++) {
+            if (strs[i].length() < shortest.length()) {
+                shortest = strs[i];
             }
-            // If current character is not common, return longestPrefix, else append it to currentLongestPrefix
-            if (!check) {
-                return longestPrefix;
-            } else {
-                longestPrefix += strs[0].charAt(i);
+        }
+
+        // Traverse the letters to find the longest common prefix
+        for (int i = 0; i < shortest.length(); i++) {
+            char currentLetter = shortest.charAt(i);
+
+            // Traverse the strings to compare letter at index i
+            for (int j = 0; j < strs.length; j++) {
+                if (strs[j].charAt(i) == currentLetter) {
+                    check = true;
+                } else {
+                    return longestPrefix;
+                }
+            }
+            if (check) {
+                longestPrefix += currentLetter;
             }
         }
         return longestPrefix;
