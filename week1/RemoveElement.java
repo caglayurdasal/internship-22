@@ -28,6 +28,6 @@ public class RemoveElement {
         int[] nums2 = {0, 1, 2, 2, 3, 0, 4, 2};
         System.out.println(removeElement(nums2, 2)); // 5, nums2 = [0,1,4,0,3,_,_,_]
         int[] nums3 = {4,5};
-        System.out.println(removeElement(nums3, 5)); // 5, nums2 = [4]
+        System.out.println(removeElement(nums3, 5)); // 1, nums2 = [4]
     }
 }
