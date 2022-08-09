@@ -3,18 +3,18 @@ import java.util.Scanner;
 public class NeedleInHaystack {
     public static int getIndex(String haystack, String needle) {
         int firstOccurrence = -1;
-        boolean check = true;
+        boolean isFound = true;
         for (int i = 0; i < haystack.length(); i++) {
             if (haystack.charAt(i) == needle.charAt(0)) {
                 firstOccurrence = i;
 
                 for (int j = 0; j < needle.length(); j++) {
                     if (!(haystack.charAt(i) == needle.charAt(j))) {
-                        check = false;
+                        isFound = false;
                     }
                     j++;
                 }
-                if (check) {
+                if (isFound) {
                     return firstOccurrence;
                 }
             }
