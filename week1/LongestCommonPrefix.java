@@ -5,7 +5,8 @@
 public class LongestCommonPrefix {
     public static String longestCommonPrefix(String[] strs) {
         String longestPrefix = "";
-        boolean check = false;  //
+        boolean isCommon = false;
+        
         // Find the shortest string
         String shortest = strs[0];
         for (int i = 0; i < strs.length; i++) {
@@ -21,12 +22,12 @@ public class LongestCommonPrefix {
             // Traverse the strings to compare letter at index i
             for (int j = 0; j < strs.length; j++) {
                 if (strs[j].charAt(i) == currentLetter) {
-                    check = true;
+                    isCommon = true;
                 } else {
                     return longestPrefix;
                 }
             }
-            if (check) {
+            if (isCommon) {
                 longestPrefix += currentLetter;
             }
         }
