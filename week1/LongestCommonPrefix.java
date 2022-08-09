@@ -1,5 +1,5 @@
 /**
- * This program finds checks whether there is a common prefix in an array of strings.
+ * This program checks whether there is a common prefix in an array of strings.
  * If so, it displays the prefix.
  */
 public class LongestCommonPrefix {
