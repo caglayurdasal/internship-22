@@ -11,10 +11,12 @@ public class GenerateParentheses {
         if (opening < n) {
             pair += "(";
             trackParentheses(opening + 1, closing, n);
+            pair = pair.substring(0, pair.length() - 1);
         }
         if (closing < n) {
             pair += ")";
             trackParentheses(opening, closing + 1, n);
+            pair = pair.substring(0, pair.length() - 1);
         }
         return parentheses;
     }
