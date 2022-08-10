@@ -16,9 +16,14 @@ public class GenerateParentheses {
             pair = pair.substring(0, pair.length() - 1);
         }
         if (closing < n) {
-            pair += ")";
-            trackParentheses(opening, closing + 1, n);
-            pair = pair.substring(0, pair.length() - 1);
+            // Check if there is an unmatched opening parentheses at the beginning
+            // Check if a closing parentheses is required
+            if (pair.length()!=0 && closing < opening){
+                pair += ")";
+                trackParentheses(opening, closing + 1, n);
+                pair = pair.substring(0, pair.length() - 1);
+            }
+
         }
         return parentheses;
     }
