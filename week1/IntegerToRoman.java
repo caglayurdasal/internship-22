@@ -2,8 +2,10 @@ import java.util.*;
 
 public class IntegerToRoman {
     public static String intToRoman(int num) {
+        int[] numsInt = {1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000};
+        String[] numsRoman = {"I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"};
+        String newNum="";
         List<Integer> intParts = new ArrayList<Integer>();
-        String newNum = "";
         int remainder, numDigits = 0;
         while (num > 0) {
             remainder = num % 10;
@@ -12,41 +14,16 @@ public class IntegerToRoman {
             num /= 10;
         }
         System.out.println(intParts);
-        /* Thresholds:
-         *  1-5-10-50-100-500-1000
-         */
-
-        while (intParts.size() != 0) {
-            int lastIndex = intParts.get(intParts.size() - 1);
-            if (lastIndex >= 900) {
-                if (lastIndex == 900) {
-                    newNum += "CM";
-                } else {
-                    while (lastIndex > 0) {
-                        newNum += "M";
-                        lastIndex -= 100;
+        for (int i = intParts.size() - 1; i >= 0; i--) {
+            if(intParts.get(i)!=0){
+                for(int j=0;j<numsInt.length;j++){
+                    if (numsInt[j]==intParts.get(i)){
+                        newNum+=numsRoman[j];
                     }
                 }
-
-                intParts.remove(lastIndex);
-            } else if (lastIndex >= 500) {
-                if (lastIndex == 400) {
-                    newNum += "CD";
-                } else {
-                    while (lastIndex > 0) {
-                        newNum += "D";
-                        lastIndex -= 100;
-                    }
-                intParts.remove(lastIndex);
             }
         }
-//        String[] intPartsArray=intParts.toArray(new String[intParts.size()]);
-//
-//        while(intPartsArray.length != 0){
-//            if (intParts[intPartsArray.length-1] >)
-//        }
-
-        return "all iz wel.";
+        return newNum;
     }
 
     public static void main(String[] args) {
