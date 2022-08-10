@@ -1,9 +1,11 @@
 import java.util.*;
 
 public class GenerateParentheses {
+    public static String pair = "";
+    public static List<String> parentheses = new ArrayList<String>();
     public static List<String> trackParentheses(int opening, int closing, int n) {
-        List<String> parentheses = new ArrayList<String>();
-        String pair = "";
+
+
         if (opening == closing && opening == n && closing == n) {
             parentheses.add(pair); // Add all generated parentheses pairs to resulting list
             return parentheses;
