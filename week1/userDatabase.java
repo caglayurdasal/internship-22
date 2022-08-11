@@ -23,12 +23,23 @@ public class userDatabase {
     }
 
     public static String getUserName(int lineNumber) {
+        String userName = "";
         try {
             FileInputStream fs = new FileInputStream("database.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(fs));
-            for (int i = 1; i < lineNumber; ++i)
+            for (int i = 1; i < lineNumber; i++) {
                 br.readLine();
-            return br.readLine();
+            }
+            int i;
+            char ch;
+
+            while ((i = br.read()) != ';') {
+                // converts integer to character
+                ch = (char) i;
+                // prints character
+                userName += ch;
+            }
+            return userName;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
