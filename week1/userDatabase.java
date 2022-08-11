@@ -30,7 +30,6 @@ public class userDatabase {
             }
             int i;
             char ch;
-
             while ((i = br.read()) != ';') {
                 ch = (char) i;  // Convert integer to character
                 userName += ch; // Add character to username string
@@ -39,37 +38,69 @@ public class userDatabase {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    public static String getPassword(int lineNumber) {
+        String userPassword = "";
+        try {
+            FileInputStream fs = new FileInputStream("database.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(fs));
+
+            // move to the line where user is saved
+            for (int i = 1; i < lineNumber; i++) {
+                br.readLine();
+            }
+
+            int i;
+            char ch;
+
+            for (int j = 0; j < 2; j++) {
+                do {
+                    i = br.read();
+                } while (i != ';');
+            }
+            // check userPassword
+            userPassword += br.readLine();
+            System.out.println(userPassword);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return userPassword;
     }
 
     public static void main(String[] args) {
 
-        String mailAddress;
+        String mailAddress, userPassword, attemptedPassword;
         boolean isValid = false;
         int userIndex, userOption;
         while (!isValid) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter your e-mail address: ");
-            mailAddress = scanner.nextLine();
+            mailAddress = scanner.next();
             if ((userIndex = isRegistered(mailAddress)) == -1) {
                 System.out.println("You have entered an invalid e-mail address. Please try again.");
             } else {
-                System.out.println(userIndex);
-                System.out.println("Welcome, " + getUserName(userIndex));
-                isValid = true;
-                System.out.println("1. Log out");
-                System.out.println("2. Change password");
-                userOption=Integer.parseInt(scanner.next());
-                if (userOption==1){
-                    isValid=false;
-                }
+                userPassword = getPassword(userIndex);
+                Scanner sc = new Scanner(System.in);
+                System.out.println("Enter your password: ");
+                attemptedPassword = sc.nextLine();
+                if (attemptedPassword.equals(userPassword)) {
+                    System.out.println("Welcome, " + getUserName(userIndex));
+                    isValid = true;
+                    System.out.println("1. Log out");
+                    System.out.println("2. Change password");
+                    userOption = Integer.parseInt(sc.next());
+                    if (userOption == 1) {
+                        isValid = false;
+                    }
 //                else{
 //
 //                }
-
+                } else {
+                    System.out.println("Wrong password.");
+                    isValid=true;
+                }
             }
         }
-
-
     }
 }
