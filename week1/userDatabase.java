@@ -5,7 +5,7 @@ public class userDatabase {
     public static Scanner scanner = new Scanner(System.in);
 
     public static int isRegistered(String userMail) {
-        int lineNumber=0;
+        int lineNumber = 0;
         try (FileReader database = new FileReader("database.txt"); // Create a new file instance
              BufferedReader br = new BufferedReader(database)) {           // Create buffering character input stream
             String mail = br.readLine();
@@ -21,9 +21,19 @@ public class userDatabase {
             throw new RuntimeException(e);
         }
     }
-//    public static String getUserName(int lineNumber){
-//
-//    }
+
+    public static String getUserName(int lineNumber) {
+        try {
+            FileInputStream fs = new FileInputStream("database.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(fs));
+            for (int i = 1; i < lineNumber; ++i)
+                br.readLine();
+            return br.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
     public static void main(String[] args) {
         System.out.println("Enter your e-mail address: ");
@@ -31,11 +41,12 @@ public class userDatabase {
         boolean isValid = false;
         int userIndex;
         while (!isValid) {
-            if ((userIndex=isRegistered(mailAddress))==-1) {
+            if ((userIndex = isRegistered(mailAddress)) == -1) {
                 System.out.println("You have entered an invalid e-mail address. Please try again.");
                 mailAddress = scanner.nextLine();
             } else {
                 System.out.println(userIndex);
+                System.out.println("Welcome, " + getUserName(userIndex));
                 isValid = true;
             }
         }
