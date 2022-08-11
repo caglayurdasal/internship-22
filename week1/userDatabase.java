@@ -2,8 +2,6 @@ import java.io.*;
 import java.util.*;
 
 public class userDatabase {
-    public static Scanner scanner = new Scanner(System.in);
-
     public static int isRegistered(String userMail) {
         int lineNumber = 0;
         try (FileReader database = new FileReader("database.txt"); // Create a new file instance
@@ -34,10 +32,8 @@ public class userDatabase {
             char ch;
 
             while ((i = br.read()) != ';') {
-                // converts integer to character
-                ch = (char) i;
-                // prints character
-                userName += ch;
+                ch = (char) i;  // Convert integer to character
+                userName += ch; // Add character to username string
             }
             return userName;
         } catch (IOException e) {
@@ -47,20 +43,33 @@ public class userDatabase {
     }
 
     public static void main(String[] args) {
-        System.out.println("Enter your e-mail address: ");
-        String mailAddress = scanner.nextLine();
+
+        String mailAddress;
         boolean isValid = false;
-        int userIndex;
+        int userIndex, userOption;
         while (!isValid) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter your e-mail address: ");
+            mailAddress = scanner.nextLine();
             if ((userIndex = isRegistered(mailAddress)) == -1) {
                 System.out.println("You have entered an invalid e-mail address. Please try again.");
-                mailAddress = scanner.nextLine();
             } else {
                 System.out.println(userIndex);
                 System.out.println("Welcome, " + getUserName(userIndex));
                 isValid = true;
+                System.out.println("1. Log out");
+                System.out.println("2. Change password");
+                userOption=Integer.parseInt(scanner.next());
+                if (userOption==1){
+                    isValid=false;
+                }
+//                else{
+//
+//                }
+
             }
         }
+
 
     }
 }
