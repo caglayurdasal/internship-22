@@ -68,6 +68,54 @@ public class userDatabase {
         return userPassword;
     }
 
+    public static void changePassword(File database, String userPassword, int lineNumber) {
+        File temp = new File("temp.txt");
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter new password: ");
+        String newPassword = sc.next();
+        String currentLine;
+        int tempLines = 0;
+
+        try {
+            FileWriter tempWriter = new FileWriter("temp.txt");
+            FileInputStream fs = new FileInputStream("database.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(fs));
+
+            // move to the line where user is saved
+            for (int i = 1; i < lineNumber; i++) {
+                currentLine = br.readLine();
+                tempWriter.write(currentLine);
+                tempLines++;
+                tempWriter.write('\n');
+            }
+            int i;
+            char ch;
+
+            for (int j = 0; j < 2; j++) {
+                do {
+                    i = br.read();
+                    tempWriter.write(i);
+                } while (i != ';');
+            }
+            for (int j = 0; j < newPassword.length(); j++) {
+                tempWriter.write(newPassword.charAt(j));
+            }
+            tempWriter.write('\n');
+
+            while (br.readLine() != null) {
+                currentLine = br.readLine();
+                tempWriter.write(currentLine);
+            }
+            tempWriter.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
     public static void main(String[] args) {
 
         String mailAddress, userPassword, attemptedPassword;
@@ -92,13 +140,24 @@ public class userDatabase {
                     userOption = Integer.parseInt(sc.next());
                     if (userOption == 1) {
                         isValid = false;
+                    } else {
+                        File database = new File("database.txt");
+                        File temp = new File("temp.txt");
+                        changePassword(database, userPassword, userIndex);
+                        System.out.println("Password is changed.");
+                        //Delete the original file
+                        if (!database.delete()) {
+                            System.out.println("Could not delete file");
+                            return;
+                        }
+
+                        //Rename the new file to the filename the original file had.
+                        if (!temp.renameTo(database))
+                            System.out.println("Could not rename file");
                     }
-//                else{
-//
-//                }
                 } else {
                     System.out.println("Wrong password.");
-                    isValid=true;
+                    isValid = true;
                 }
             }
         }
