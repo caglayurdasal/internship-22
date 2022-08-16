@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.*;
 
 public class Blackjack {
@@ -6,6 +7,8 @@ public class Blackjack {
     public static ArrayList<Cards> dealer = new ArrayList<>();
     public static Random rand = new Random();
     public static Scanner scanner = new Scanner(System.in);
+    public static int playerMoney = 100;
+    public static int bet;
 
     enum Cards {
         ACE("ACE", 1), TWO("TWO", 2), THREE("THREE", 3), FOUR("FOUR", 4), FIVE("FIVE", 5), SIX("SIX", 6), SEVEN("SEVEN", 7), EIGHT("EIGHT", 8), NINE("NINE", 9), TEN("TEN", 10), JOKER("JOKER", 10), QUEEN("QUEEN", 10), KING("KING", 10);
@@ -17,6 +20,21 @@ public class Blackjack {
         Cards(String face, int value) {
             this.card = face;
             this.value = value;
+        }
+    }
+
+    public static void savePlayerMoney() {
+        try {
+            File myObj = new File("player-money.txt");
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            } else {
+                FileWriter myWriter = new FileWriter("player-money.txt");
+                myWriter.write(playerMoney + " ");
+                myWriter.close();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -58,8 +76,10 @@ public class Blackjack {
             System.out.println("It's a tie!");
         } else if (pointsPlayer > 21) { // If player has over 21 points, dealer wins
             System.out.println("Dealer wins!");
+            playerMoney -= bet;
         } else if (pointsPlayer == 21 || pointsDealer > 21) { // If player has 21 points OR dealer has over 21 points AND player has under 21, player wins
             System.out.println("Player wins!");
+            playerMoney += bet;
         } else if (pointsDealer < 21) {    // If both sides have under 21 points, the one with the highest points wins
             while (pointsDealer < 17) {
                 drawCard(dealer, 1);
@@ -67,8 +87,10 @@ public class Blackjack {
             }
             if (pointsDealer < pointsPlayer) {
                 System.out.println("Player wins!");
+                playerMoney += bet;
             } else {
                 System.out.println("Dealer wins!");
+                playerMoney -= bet;
             }
         }
         System.out.println("Dealer's hand: " + dealer);
@@ -79,7 +101,9 @@ public class Blackjack {
 
 
     public static void main(String[] args) {
-        System.out.println("Welcome!");
+
+        System.out.println("Your bet?");
+        bet = scanner.nextInt();
         boolean isRoundOver = false;
         boolean isGameOver = false;
         createDeck();
@@ -134,6 +158,7 @@ public class Blackjack {
                     isValid = true;
                 } else if (playerChoice == 2) {
                     System.out.println("Take care!");
+                    savePlayerMoney();
                     isValid = true;
                     isGameOver = true;
                 } else {
