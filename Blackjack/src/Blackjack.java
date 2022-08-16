@@ -21,8 +21,8 @@ public class Blackjack {
     }
 
     public static void displayHand(ArrayList<Cards> playerHand, ArrayList<Cards> dealerHand) {
-        System.out.println(playerHand);
-        System.out.println(dealerHand.subList(0, dealerHand.size() - 1));  // Dealer has 1 face down card
+        System.out.println("Player's hand: " + playerHand);
+        System.out.println("Dealer's hand: " + dealerHand.subList(0, dealerHand.size() - 1));  // Dealer has 1 face down card
     }
 
     public static int getRandomCard() {
@@ -52,70 +52,95 @@ public class Blackjack {
         return total;
     }
 
+    public static void announceWinner(int pointsPlayer, int pointsDealer) {
+        System.out.println("********************************");
+        if (pointsPlayer == pointsDealer) {
+            System.out.println("It's a tie!");
+        } else if (pointsPlayer > 21) { // If player has over 21 points, dealer wins
+            System.out.println("Dealer wins!");
+        } else if (pointsPlayer == 21 || pointsDealer > 21) { // If player has 21 points OR dealer has over 21 points AND player has under 21, player wins
+            System.out.println("Player wins!");
+        } else if (pointsDealer < 21) {    // If both sides have under 21 points, the one with the highest points wins
+            while (pointsDealer < 17) {
+                drawCard(dealer, 1);
+                pointsDealer = getCardTotal(dealer);
+            }
+            if (pointsDealer < pointsPlayer) {
+                System.out.println("Player wins!");
+            } else {
+                System.out.println("Dealer wins!");
+            }
+        }
+        System.out.println("Dealer's hand: " + dealer);
+        System.out.println("Dealer's score: " + pointsDealer);
+        System.out.println("Player's hand: " + player);
+        System.out.println("Player's score: " + pointsPlayer);
+    }
+
+
     public static void main(String[] args) {
+        System.out.println("Welcome!");
         boolean isRoundOver = false;
         boolean isGameOver = false;
         createDeck();
 
-        // Give 2 cards each to the player and the dealer
-        drawCard(player, 2);
-        drawCard(dealer, 2);
-
         while (!isGameOver) {
-            int scorePlayer, scoreDealer;
+            player.clear();
+            dealer.clear();
+            // Give 2 cards each to the player and the dealer
+            drawCard(player, 2);
+            drawCard(dealer, 2);
             while (!isRoundOver) {
+                int pointsPlayer = getCardTotal(player);
+                int pointsDealer = getCardTotal(dealer);
                 displayHand(player, dealer);
                 // If card total of player is 21, they win
-                if (getCardTotal(player) == 21) {
-                    System.out.println("Player wins!");
-                    break;
-                }
-
-                System.out.println("Dealer: Do you want to (h)it or (s)tand?");
-                System.out.print("Player: ");
-                String playerMove = scanner.next();
-
-                switch (playerMove) {
-                    case "s":
-                        scorePlayer = getCardTotal(player);
-                        scoreDealer = getCardTotal(dealer);
-                        System.out.println("Dealer's cards: " + dealer);
-                        System.out.println("Dealer score: " + scoreDealer + "\nPlayer score: " + scorePlayer);
-                        if (scorePlayer > 21) {
-                            System.out.println("Dealer wins!");
-                            break;
-                        } else if (scoreDealer > 21) {
-                            System.out.println("Player wins!");
-                        } else {
-                            if (scoreDealer > scorePlayer) {
-                                System.out.println("Dealer wins!");
-                            } else {
-                                System.out.println("Player wins!");
+                if (pointsPlayer >= 21) {
+                    announceWinner(pointsPlayer, pointsDealer);
+                    isRoundOver = true;
+                } else {
+                    System.out.println("Do you want to (h)it or (s)tand?");
+                    System.out.print("Player: ");
+                    String playerMove = scanner.nextLine();
+                    switch (playerMove) {
+                        case "s" -> {
+                            announceWinner(pointsPlayer, pointsDealer);
+                            isRoundOver = true;
+                        }
+                        case "h" -> {
+                            drawCard(player, 1);
+                            pointsPlayer = getCardTotal(player);
+                            if (pointsPlayer >= 21) {
+                                announceWinner(pointsPlayer, pointsDealer);
+                                isRoundOver = true;
                             }
                         }
-                        isRoundOver = true;
-                        break;
-                    case "h":
-
-                        break;
+                    }
                 }
             }
             int playerChoice;
+
             boolean isValid = false;
             System.out.print("(1) New game\n(2) Exit\nEnter 1 or 2: ");
-            do {
-                playerChoice = scanner.nextInt();
+            while (!isValid) {
+                playerChoice = Integer.parseInt(scanner.nextLine());
                 if (playerChoice == 1) {
                     System.out.println("Again!");
+                    if (deck.size() <= 25) {
+                        System.out.println("Number of cards left: " + deck.size());
+                        isGameOver = true;
+                    }
+                    isRoundOver = false;
                     isValid = true;
                 } else if (playerChoice == 2) {
                     System.out.println("Take care!");
-                    isGameOver = true;
                     isValid = true;
+                    isGameOver = true;
                 } else {
                     System.out.println("You have entered an invalid character.");
                 }
-            } while (!isValid);
+                System.out.println();
+            }
         }
     }
 }
