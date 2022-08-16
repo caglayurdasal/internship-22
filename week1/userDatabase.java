@@ -69,7 +69,6 @@ public class userDatabase {
     }
 
     public static void changePassword(File database, String userPassword, int lineNumber) {
-        File temp = new File("temp.txt");
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter new password: ");
@@ -112,8 +111,11 @@ public class userDatabase {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
+    }
+    public static BufferedReader getDatabaseBufferReader(){
+        FileInputStream fs = new FileInputStream("database.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(fs));
+        return br;
     }
 
     public static void main(String[] args) {
